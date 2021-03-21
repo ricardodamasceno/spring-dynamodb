@@ -10,5 +10,6 @@ public class UserRequestVO {
     private final String email;
     private final String age;
     private final String cpf;
+    private final String status;
 
 }

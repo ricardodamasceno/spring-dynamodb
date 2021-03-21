@@ -15,8 +15,8 @@ public class UserController {
     @GetMapping
     public void getUsers(@RequestHeader String name, @RequestHeader String email,
                          @RequestHeader String age, @RequestHeader String cpf,
-                         @RequestHeader String gender){
-        userService.getUsers(new UserRequestVO(gender, name, email, age, cpf));
+                         @RequestHeader String gender, @RequestHeader String status){
+        userService.getUsers(new UserRequestVO(gender, name, email, age, cpf, status));
     }
 
     @PostMapping
@@ -27,6 +27,11 @@ public class UserController {
     @DeleteMapping
     public void deleteUser(@RequestBody UserRequestVO request){
         userService.deleteUser(request);
+    }
+
+    @PutMapping
+    public void updateUser(@RequestBody UserRequestVO request){
+        userService.updateUser(request);
     }
 
 }

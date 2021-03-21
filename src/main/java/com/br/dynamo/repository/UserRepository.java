@@ -3,6 +3,7 @@ package com.br.dynamo.repository;
 import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
+import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.ReturnValue;
@@ -19,6 +20,28 @@ public class UserRepository {
 
     @Autowired
     private DynamoDB dynamoDB;
+
+    public void updateUser(UserRequestVO request){
+
+        Table table = dynamoDB.getTable(UserTableFields.USER_TABLE_NAME.getValue());
+
+        UpdateItemSpec updateItemSpec = new UpdateItemSpec()
+                .withPrimaryKey(
+                        UserTableFields.USER_GENDER.getValue(), request.getGender(),
+                        UserTableFields.USER_NAME.getValue(), request.getName()
+                )
+                .withReturnValues(ReturnValue.ALL_NEW)
+                .withUpdateExpression("set #status = :status")
+                //.withConditionExpression("#p = :val2")
+                .withNameMap(new NameMap().with("#status", "user_status"))
+                .withValueMap(new ValueMap()
+                        .withString(":status", request.getStatus())
+                        //.withNumber(":val2", 20)
+                );
+
+        UpdateItemOutcome outcome = table.updateItem(updateItemSpec);
+
+    }
 
     public void deleteUser(UserRequestVO request){
 

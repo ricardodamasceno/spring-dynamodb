@@ -12,6 +12,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public void updateUser(UserRequestVO request){
+        userRepository.updateUser(request);
+    }
+
     public void getUsers(UserRequestVO request){
         userRepository.getUsers(request);
     }
