@@ -17,9 +17,9 @@ public class UserController {
 
     @GetMapping
     public void getUsers(@RequestHeader String name, @RequestHeader String email,
-                         @RequestHeader String age, @RequestHeader String cpf){
+                         @RequestHeader String age, @RequestHeader String cpf, @RequestHeader String gender){
 
-        userService.getUsers(new UserRequestVO(name, email, age, cpf));
+        userService.getUsers(new UserRequestVO(gender, name, email, age, cpf));
     }
 
 }
