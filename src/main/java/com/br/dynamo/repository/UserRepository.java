@@ -16,9 +16,15 @@ public class UserRepository {
     @Autowired
     private DynamoDB dynamoDB;
 
+    public void saveUser(Item item){
+        Table table = dynamoDB.getTable("USER_TABLE");
+        table.putItem(item);
+    }
+
     public void getUsers(UserRequestVO request){
 
         Table table = dynamoDB.getTable("USER_TABLE");
+
         ValueMap params = new ValueMap();
 
         QueryFilter queryFilter = new QueryFilter("user_age");
