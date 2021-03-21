@@ -52,7 +52,7 @@ public class UserRepository {
             query.append(" and user_name = :key_name");
             params.withString(":key_name", request.getName());
         }
-        return query.toString();
+        return StringUtils.hasText(query) ? query.toString() : null;
     }
 
     private String buildFilter(UserRequestVO request, ValueMap params){
@@ -72,7 +72,7 @@ public class UserRepository {
             filter.append("user_cpf = :key_cpf");
             params.withString(":key_cpf", request.getCpf());
         }
-        return filter.toString();
+        return StringUtils.hasText(filter) ? filter.toString() : null;
     }
 
     private void insertAnd(StringBuilder value){
