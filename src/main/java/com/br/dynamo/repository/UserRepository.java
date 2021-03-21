@@ -1,8 +1,12 @@
 package com.br.dynamo.repository;
 
 import com.amazonaws.services.dynamodbv2.document.*;
+import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
+import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
+import com.amazonaws.services.dynamodbv2.model.ReturnValue;
+import com.br.dynamo.enums.UserTableFields;
 import com.br.dynamo.vo.request.UserRequestVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,6 +19,24 @@ public class UserRepository {
 
     @Autowired
     private DynamoDB dynamoDB;
+
+    public void deleteUser(UserRequestVO request){
+
+        Table table = dynamoDB.getTable(UserTableFields.USER_TABLE_NAME.getValue());
+
+        DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
+                .withPrimaryKey(
+                        UserTableFields.USER_GENDER.getValue(), request.getGender(),
+                        UserTableFields.USER_NAME.getValue(), request.getName()
+                )
+                //.withConditionExpression("#age = :val")
+                //.withNameMap(new NameMap().with("#age", UserTableFields.USER_AGE.getValue()))
+                //.withValueMap(new ValueMap().withString(":val", request.getAge()))
+                .withReturnValues(ReturnValue.ALL_OLD);
+
+        DeleteItemOutcome outcome = table.deleteItem(deleteItemSpec);
+
+    }
 
     public void saveUser(Item item){
         Table table = dynamoDB.getTable("USER_TABLE");

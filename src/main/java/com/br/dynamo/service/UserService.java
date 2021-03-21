@@ -26,4 +26,9 @@ public class UserService {
 
         userRepository.saveUser(item);
     }
+
+    public void deleteUser(UserRequestVO request){
+        userRepository.deleteUser(request);
+    }
+
 }
